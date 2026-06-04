@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forgive Me? 🥺</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#ffd6e8,#fff4f8);min-height:100vh;display:flex;justify-content:center;align-items:center;padding:15px;overflow-x:hidden}
+.card{max-width:800px;width:100%;background:rgba(255,255,255,.95);padding:22px;border-radius:24px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.15);position:relative;z-index:2}
+#bear{width:min(280px,75vw);border-radius:16px}
+button{border:none;border-radius:16px;padding:14px 22px;font-size:18px;margin:8px;cursor:pointer}
+#yesBtn{background:#ff5fa2;color:#fff}
+#noBtn{background:#888;color:#fff;transition:left .35s ease,top .35s ease,transform .35s ease}
+#message{min-height:90px;line-height:1.6;font-size:1.1rem}
+.music{position:fixed;top:10px;right:10px;z-index:999}
+.heart{position:fixed;bottom:-20px;animation:float 6s linear forwards;pointer-events:none}
+@keyframes float{to{transform:translateY(-110vh);opacity:0}}
+.sparkle{position:fixed;pointer-events:none;animation:twinkle 2s infinite}
+@keyframes twinkle{50%{transform:scale(1.4)}}
+.confetti{position:fixed;top:-20px;animation:fall 4s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+@keyframes panicShake{
+0%{transform:rotate(-8deg)}
+25%{transform:rotate(8deg)}
+50%{transform:rotate(-8deg)}
+75%{transform:rotate(8deg)}
+100%{transform:rotate(0deg)}
+}
+.panic{animation:panicShake .3s ease}
+.final{text-align:left;line-height:1.8;max-width:650px;margin:auto}
+</style>
+</head>
+<body>
+
+<button class="music" onclick="toggleMusic()">🎵 Music</button>
+<audio id="bgm" loop>
+<source src="YOUR_CUTE_INSTRUMENTAL_URL.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card" id="card">
+<img id="bear" src="https://media.tenor.com/mSIfEcNYz5QAAAAm/cute.webp">
+<h1>🥺 Are you still mad at me?</h1>
+<div id="message">
+This little bear has something important to say... 💕<br><br>
+I'm really sorry for hurting you.
+</div>
+<div>
+<button id="noBtn">Still Mad? 😤</button>
+<button id="yesBtn">Forgive Me? 🥺</button>
+</div>
+</div>
+
+<script>
+const bear=document.getElementById('bear');
+const msg=document.getElementById('message');
+const noBtn=document.getElementById('noBtn');
+const yesBtn=document.getElementById('yesBtn');
+
+const stages=[
+["https://media.tenor.com/K0Op-0SpsvkAAAAm/dudu-cute.webp","🥺 Oh! Gummy Bear, I'm really sorry..."],
+["https://media.tenor.com/K0Op-0SpsvkAAAAm/dudu-cute.webp","🌸 Sweetie, forgive me na..."],
+["https://media.tenor.com/fxlk5sm52y4AAAAM/cute-bear.gif","💕 My favorite human..."],
+["https://media.tenor.com/fxlk5sm52y4AAAAM/cute-bear.gif","🥹 I miss making you smile..."],
+["https://media.tenor.com/fxlk5sm52y4AAAAM/cute-bear.gif","💔 I know saying sorry can't magically fix everything..."],
+["https://media.tenor.com/Je68nyCU_j8AAAAm/bubu-dudu-bubu-dudu-love.webp","🌷 I brought flowers..."],
+["https://media.tenor.com/OuIfO8Gp0pAAAAAm/dessert-craving.webp","🍪 And cookies too..."],
+["https://media.tenor.com/pHGZgDVyivIAAAAM/rilakumma-bear.gif","💌 I even wrote you a little apology letter..."],
+["https://media.tenor.com/fxlk5sm52y4AAAAM/cute-bear.gif","😭 The bear is suffering..."],
+["https://media.tenor.com/fxlk5sm52y4AAAAM/cute-bear.gif","🥺 Please don't stay mad forever..."]
+];
+let i=0;
+
+noBtn.onclick=()=>{
+ if(i<stages.length){
+  bear.src=stages[i][0];
+  msg.innerHTML=stages[i][1];
+  i++;
+
+  const scale=Math.max(0.05,1-i*0.1);
+
+  const maxX=window.innerWidth-noBtn.offsetWidth-20;
+  const maxY=window.innerHeight-noBtn.offsetHeight-20;
+
+  noBtn.style.position="fixed";
+  noBtn.style.left=(Math.random()*maxX)+"px";
+  noBtn.style.top=(Math.random()*maxY)+"px";
+  noBtn.style.transform=`scale(${scale})`;
+
+  noBtn.classList.remove("panic");
+  void noBtn.offsetWidth;
+  noBtn.classList.add("panic");
+
+  if(i>3) noBtn.innerHTML="😰 Still Mad?";
+  if(i>6) noBtn.innerHTML="😭 Please...";
+  if(i>8) noBtn.innerHTML="🥺 Okay I'll go...";
+  if(i>9) noBtn.innerHTML="💔 Bye...";
+
+  if(i>=stages.length){
+    setTimeout(()=>{
+      noBtn.style.transform="scale(0)";
+      setTimeout(()=>{noBtn.style.display="none";},400);
+    },500);
+  }
+ }
+};
+
+yesBtn.onclick=()=>{
+ for(let j=0;j<120;j++){
+  const c=document.createElement('div');
+  c.className='confetti';
+  c.textContent=['🎊','🎉','💖','🌸'][Math.floor(Math.random()*4)];
+  c.style.left=Math.random()*100+'vw';
+  document.body.appendChild(c);
+  setTimeout(()=>c.remove(),4000);
+ }
+
+ document.getElementById('card').innerHTML=`
+ <img src="https://media1.tenor.com/m/7Hs0SDR_z2UAAAAC/hugs.gif" style="width:min(340px,85vw)">
+ <h1>🎉 YOU FORGAVE ME!!! 💖</h1>
+ <div class="final">
+ 🐻💖 The bear has stopped crying and started blushing because her favorite human forgave her. 👉👈<br><br>
+ Thank you for giving me another chance, sweetie. It means more to me than you know. 🥺🌸<br><br>
+ I'm truly sorry for hurting you, and I promise I'll try my best not to make the same mistake again.<br><br>
+ I promise to do better, be better, and take better care of your heart... because it's one of my favorite things in the whole world. 💕<br><br>
+ Now excuse me while I spend the rest of the day smiling like an idiot because you forgave me. 🐻💖🌷<br><br>
+ P.S. According to the Official Bear Forgiveness Rules™, you're now required to accept unlimited hugs and at least one happy little bear who absolutely adores you. 🐻🫂✨💕<br><br>
+ <b>P.P.S. You're kind of my favorite person, but don't let it get to your head. 🤭💖🐻</b><br><br>
+ <b>P.P.P.S. Thank you for staying. I know I can be a little silly sometimes, but I'm really grateful you're here. 🥺💕🌷</b>
+ <hr>
+ ✨ Achievement Unlocked: Forgiven 💖<br>
+ ♾️ Unlimited Hugs<br>🍪 Infinite Cookies<br>🌷 A Very Happy Girl<br>🐻 One Bear Who Will Finally Stop Crying
+ </div>`;
+};
+
+setInterval(()=>{
+ const h=document.createElement('div');
+ h.className='heart';
+ h.textContent=['💕','💖','💞','🌸'][Math.floor(Math.random()*4)];
+ h.style.left=Math.random()*100+'vw';
+ document.body.appendChild(h);
+ setTimeout(()=>h.remove(),6000);
+},400);
+
+for(let k=0;k<20;k++){
+ const s=document.createElement('div');
+ s.className='sparkle';
+ s.textContent='✨';
+ s.style.left=Math.random()*100+'vw';
+ s.style.top=Math.random()*100+'vh';
+ document.body.appendChild(s);
+}
+
+function toggleMusic(){
+ const a=document.getElementById('bgm');
+ if(a.paused) a.play(); else a.pause();
+}
+</script>
+</body>
+</html>
